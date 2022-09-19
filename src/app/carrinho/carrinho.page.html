@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>carrinho</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="carrinho p-3">
+    <div class="d-flex justify-content-between mx-3">
+      <div>Items</div>
+      <div>Preço</div>
+    </div>
+
+    <ion-list>
+      <ion-item-sliding *ngFor="let c of carrinho; let i = index">
+        <ion-item>
+          <ion-label>{{c.quantidade}} x {{c.produto.nome}}</ion-label>
+          <div>{{c.produto.valor * quantidade | currency: 'BRL'}}</div>
+        </ion-item>
+        <ion-item-options slot="end">
+          <ion-item-option color="danger" (click)="remover(i)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <div class="d-flex justify-content-between m-3 fw-bold">
+      <div>Total</div>
+      <div>{{totalCarrinho | currency: 'BRL'}}</div>
+    </div>
+
+  </div>
+
+  <form>
+    <h3>Finalizar pedido</h3>
+    <ion-item>
+      <ion-label position="floating">Nome completo</ion-label>
+      <ion-input type="text" [(ngModel)]="nome" name="nome" placeholder="Como vai te chamar?"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Telefone</ion-label>
+      <ion-input type="tel" [(ngModel)]="nome"  name="telefone" placeholder="(00) 00000-0000"></ion-input>
+    </ion-item>
+
+    <ion-list>
+      <ion-radio-group [(ngModel)]="entrega" (ionChange)="verificar()">
+        <ion-list-header>
+          <ion-label>Escolha uma opção:</ion-label>
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Entrega</ion-label>
+          <ion-radio slot="start" value="delivery"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Retirada no local</ion-label>
+          <ion-radio slot="start" value="balcao"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-list>
+    <ion-item *ngIf="mostrarEndereco">
+      <ion-label position="floating">Endereço</ion-label>
+      <ion-input type="text" [(ngModel)]="endereco" name="endereco" placeholder="Rua X, 000. Bairro"></ion-input>
+    </ion-item>
+    <ion-list>
+      <ion-radio-group name="pagamento" [(ngModel)]="pagamento">
+        <ion-list-header>
+          <ion-label>Forma de pagamento:</ion-label>
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Pix</ion-label>
+          <ion-radio slot="start" value="pix"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Dinheiro</ion-label>
+          <ion-radio slot="start" value="dinheiro"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>Cartão Débito/Crédito</ion-label>
+          <ion-radio slot="start" value="cartao"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+      <ion-button (click)="enviarPedido()"type="submit" expand="block" class="mt-3"> Enviar pedido pelo Whatsapp
+      </ion-button>
+    </ion-list>
+  </form>
+</ion-content>
